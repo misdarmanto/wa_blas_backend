@@ -7,7 +7,7 @@ module.exports = {
     await queryInterface.bulkInsert('wa_blas_users_category', [
       {
         wa_blas_user_category_id: 'w1eqw2421221erwerewr23423rewr',
-        wa_blas_user__category_name: 'cafe'
+        wa_blas_user_category_name: 'cafe'
       }
     ])
   },

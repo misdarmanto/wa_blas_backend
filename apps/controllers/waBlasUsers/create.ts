@@ -10,7 +10,7 @@ export const createWaBlasUsers = async (req: any, res: Response): Promise<any> =
   const requestBody = req.body as WaBlasUsersAttributes
 
   const emptyField = requestChecker({
-    requireList: ['waBlasUserName', 'waBlasUserWhatsappNumber', 'waBlasUserCategory'],
+    requireList: ['waBlasUserName', 'waBlasUserWhatsappNumber', 'waBlasUserCategoryId'],
     requestData: requestBody
   })
 

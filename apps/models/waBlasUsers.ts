@@ -3,6 +3,7 @@ import { DataTypes, type Model, type Optional, UUIDV4 } from 'sequelize'
 import { sequelize } from '.'
 import { type ZygoteAttributes, ZygoteModel } from './zygote'
 import moment from 'moment'
+import { WaBlasUsersCategoryModel } from './waBlasUsersCategory'
 
 export interface WaBlasUsersAttributes extends ZygoteAttributes {
   waBlasUserId: string
@@ -64,3 +65,9 @@ export const WaBlasUsersModel = sequelize.define<WaBlasUsersInstance>(
     }
   }
 )
+
+WaBlasUsersModel.hasOne(WaBlasUsersCategoryModel, {
+  as: 'category',
+  sourceKey: 'waBlasUserCategoryId',
+  foreignKey: 'waBlasUserCategoryId'
+})

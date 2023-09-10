@@ -6,6 +6,7 @@ import { Pagination } from '../../utilities/pagination'
 import { requestChecker } from '../../utilities/requestCheker'
 import { CONSOLE } from '../../utilities/log'
 import { type WaBlasUsersAttributes, WaBlasUsersModel } from '../../models/waBlasUsers'
+import { WaBlasUsersCategoryModel } from '../../models/waBlasUsersCategory'
 
 export const findAllWaBlasUsers = async (req: any, res: Response): Promise<any> => {
   try {
@@ -24,6 +25,7 @@ export const findAllWaBlasUsers = async (req: any, res: Response): Promise<any> 
           ]
         })
       },
+      include: [{ model: WaBlasUsersCategoryModel, as: 'category' }],
       order: [['id', 'desc']],
       ...(req.query.pagination === 'true' && {
         limit: page.limit,
