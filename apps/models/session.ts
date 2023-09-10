@@ -11,14 +11,11 @@ export interface SessionAttributes extends ZygoteAttributes {
   sessionExpiredOn: number
 }
 
-// we're telling the Model that 'id' is optional
-// when creating an instance of the model (such as using Model.create()).
 type SessionCreationAttributes = Optional<
   SessionAttributes,
   'id' | 'createdAt' | 'updatedAt'
 >
 
-// We need to declare an interface for our model that is basically what our class would be
 interface SessionInstance
   extends Model<SessionAttributes, SessionCreationAttributes>,
     SessionAttributes {}

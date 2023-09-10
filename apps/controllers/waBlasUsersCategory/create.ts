@@ -3,14 +3,20 @@ import { StatusCodes } from 'http-status-codes'
 import { ResponseData } from '../../utilities/response'
 import { requestChecker } from '../../utilities/requestCheker'
 import { v4 as uuidv4 } from 'uuid'
-import { WaBlasUsersModel, type WaBlasUsersAttributes } from '../../models/waBlasUsers'
 import { Op } from 'sequelize'
+import {
+  WaBlasUsersCategoryModel,
+  type WaBlasUsersCategoryAttributes
+} from '../../models/waBlasUsersCategory'
 
-export const createWaBlasUsers = async (req: any, res: Response): Promise<any> => {
-  const requestBody = req.body as WaBlasUsersAttributes
+export const createWaBlasUsersCategory = async (
+  req: any,
+  res: Response
+): Promise<any> => {
+  const requestBody = req.body as WaBlasUsersCategoryAttributes
 
   const emptyField = requestChecker({
-    requireList: ['waBlasUserName', 'waBlasUserWhatsappNumber', 'waBlasUserCategory'],
+    requireList: ['waBlasUserCategoryName'],
     requestData: requestBody
   })
 
@@ -21,21 +27,21 @@ export const createWaBlasUsers = async (req: any, res: Response): Promise<any> =
   }
 
   try {
-    const waBlasUser = await WaBlasUsersModel.findOne({
+    const waBlasUser = await WaBlasUsersCategoryModel.findOne({
       where: {
         deleted: { [Op.eq]: 0 },
-        waBlasUserWhatsappNumber: { [Op.eq]: requestBody.waBlasUserWhatsappNumber }
+        waBlasUserCategoryName: { [Op.eq]: requestBody.waBlasUserCategoryName }
       }
     })
 
     if (waBlasUser !== null) {
-      const message = `whatsapp number ${waBlasUser.waBlasUserWhatsappNumber} already registered`
+      const message = `category ${waBlasUser.waBlasUserCategoryName} already registered `
       const response = ResponseData.error(message)
       return res.status(StatusCodes.BAD_REQUEST).json(response)
     }
 
-    requestBody.waBlasUserId = uuidv4()
-    await WaBlasUsersModel.create(requestBody)
+    requestBody.waBlasUserCategoryId = uuidv4()
+    await WaBlasUsersCategoryModel.create(requestBody)
 
     const response = ResponseData.default
     const result = { message: 'success' }

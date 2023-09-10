@@ -4,40 +4,30 @@ import { sequelize } from '.'
 import { type ZygoteAttributes, ZygoteModel } from './zygote'
 import moment from 'moment'
 
-export interface WaBlasUsersAttributes extends ZygoteAttributes {
-  waBlasUserId: string
-  waBlasUserName: string
-  waBlasUserWhatsappNumber: string
+export interface WaBlasUsersCategoryAttributes extends ZygoteAttributes {
   waBlasUserCategoryId: string
+  waBlasUserCategoryName: string
 }
 
-type WaBlasUsersCreationAttributes = Optional<
-  WaBlasUsersAttributes,
+type WaBlasUsersCategoryCreationAttributes = Optional<
+  WaBlasUsersCategoryAttributes,
   'id' | 'createdAt' | 'updatedAt'
 >
 
-interface WaBlasUsersInstance
-  extends Model<WaBlasUsersAttributes, WaBlasUsersCreationAttributes>,
-    WaBlasUsersAttributes {}
+interface WaBlasUsersCategoryInstance
+  extends Model<WaBlasUsersCategoryAttributes, WaBlasUsersCategoryCreationAttributes>,
+    WaBlasUsersCategoryAttributes {}
 
-export const WaBlasUsersModel = sequelize.define<WaBlasUsersInstance>(
-  'wa_blas_users',
+export const WaBlasUsersCategoryModel = sequelize.define<WaBlasUsersCategoryInstance>(
+  'wa_blas_users_category',
   {
     ...ZygoteModel,
-    waBlasUserId: {
+    waBlasUserCategoryId: {
       type: DataTypes.UUID,
       allowNull: false,
       defaultValue: UUIDV4()
     },
-    waBlasUserName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    waBlasUserWhatsappNumber: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    waBlasUserCategoryId: {
+    waBlasUserCategoryName: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -45,7 +35,7 @@ export const WaBlasUsersModel = sequelize.define<WaBlasUsersInstance>(
   {
     ...sequelize,
     timestamps: false,
-    tableName: 'wa_blas_users',
+    tableName: 'wa_blas_users_category',
     deletedAt: false,
     paranoid: true,
     underscored: true,

@@ -16,9 +16,6 @@ export const createAdmin = async (req: any, res: Response): Promise<any> => {
     requestData: { ...requestBody, ...req.headers }
   })
 
-  console.log('_______')
-  console.log(emptyField)
-
   if (emptyField.length > 0) {
     const message = `invalid request parameter! require (${emptyField})`
     const response = ResponseData.error(message)

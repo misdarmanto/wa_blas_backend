@@ -3,14 +3,20 @@ import { StatusCodes } from 'http-status-codes'
 import { ResponseData } from '../../utilities/response'
 import { Op } from 'sequelize'
 import { requestChecker } from '../../utilities/requestCheker'
-import { WaBlasUsersModel, type WaBlasUsersAttributes } from '../../models/waBlasUsers'
+import {
+  type WaBlasUsersCategoryAttributes,
+  WaBlasUsersCategoryModel
+} from '../../models/waBlasUsersCategory'
 
-export const updateWaBlasUsers = async (req: any, res: Response): Promise<any> => {
-  const requestBody = req.body as WaBlasUsersAttributes
+export const removeWaBlasUsersCategory = async (
+  req: any,
+  res: Response
+): Promise<any> => {
+  const requestQuery = req.query as WaBlasUsersCategoryAttributes
 
   const emptyField = requestChecker({
-    requireList: ['waBlasUserId'],
-    requestData: requestBody
+    requireList: ['waBlasUserCategoryId'],
+    requestData: requestQuery
   })
 
   if (emptyField.length > 0) {
@@ -20,10 +26,10 @@ export const updateWaBlasUsers = async (req: any, res: Response): Promise<any> =
   }
 
   try {
-    const result = await WaBlasUsersModel.findOne({
+    const result = await WaBlasUsersCategoryModel.findOne({
       where: {
         deleted: { [Op.eq]: 0 },
-        waBlasUserId: { [Op.eq]: requestBody.waBlasUserId }
+        waBlasUserCategoryId: { [Op.eq]: requestQuery.waBlasUserCategoryId }
       }
     })
 
@@ -33,24 +39,8 @@ export const updateWaBlasUsers = async (req: any, res: Response): Promise<any> =
       return res.status(StatusCodes.NOT_FOUND).json(response)
     }
 
-    const newData: WaBlasUsersAttributes | any = {
-      ...(requestBody.waBlasUserName.length > 0 && {
-        waBlasUserName: requestBody.waBlasUserName
-      }),
-      ...(requestBody.waBlasUserWhatsappNumber.length > 0 && {
-        waBlasUserWhatsappNumber: requestBody.waBlasUserWhatsappNumber
-      }),
-      ...(requestBody.waBlasUserCategoryId.length > 0 && {
-        waBlasUserCategoryId: requestBody.waBlasUserCategoryId
-      })
-    }
-
-    await WaBlasUsersModel.update(newData, {
-      where: {
-        deleted: { [Op.eq]: 0 },
-        waBlasUserId: { [Op.eq]: requestBody.waBlasUserId }
-      }
-    })
+    result.deleted = 1
+    void result.save()
 
     const response = ResponseData.default
     response.data = { message: 'success' }

@@ -9,7 +9,7 @@ module.exports = {
         wa_blas_user_id: '424323423423erwerewr23423rewr',
         wa_blas_user_name: 'user 1',
         wa_blas_user_whatsapp_number: '08232113353',
-        wa_blas_user_category: 'cafe'
+        wa_blas_user_category_id: 'w1eqw2421221erwerewr23423rewr'
       }
     ])
   },

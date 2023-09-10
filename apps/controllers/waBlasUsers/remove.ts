@@ -27,7 +27,7 @@ export const removeWaBlasUsers = async (req: any, res: Response): Promise<any> =
       }
     })
 
-    if (result == null) {
+    if (result === null) {
       const message = 'not found!'
       const response = ResponseData.error(message)
       return res.status(StatusCodes.NOT_FOUND).json(response)

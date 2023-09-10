@@ -5,23 +5,25 @@ import { Op } from 'sequelize'
 import { Pagination } from '../../utilities/pagination'
 import { requestChecker } from '../../utilities/requestCheker'
 import { CONSOLE } from '../../utilities/log'
-import { type WaBlasUsersAttributes, WaBlasUsersModel } from '../../models/waBlasUsers'
+import {
+  type WaBlasUsersCategoryAttributes,
+  WaBlasUsersCategoryModel
+} from '../../models/waBlasUsersCategory'
 
-export const findAllWaBlasUsers = async (req: any, res: Response): Promise<any> => {
+export const findAllWaBlasUsersCategory = async (
+  req: any,
+  res: Response
+): Promise<any> => {
   try {
     const page = new Pagination(
       parseInt(req.query.page) ?? 0,
       parseInt(req.query.size) ?? 10
     )
-    const result = await WaBlasUsersModel.findAndCountAll({
+    const result = await WaBlasUsersCategoryModel.findAndCountAll({
       where: {
         deleted: { [Op.eq]: 0 },
         ...(Boolean(req.query.search) && {
-          [Op.or]: [
-            { waBlasUserName: { [Op.like]: `%${req.query.search}%` } },
-            { waBlasUserWhatsappNumber: { [Op.like]: `%${req.query.search}%` } },
-            { waBlasUserCategory: { [Op.like]: `%${req.query.search}%` } }
-          ]
+          [Op.or]: [{ waBlasUserCategoryName: { [Op.like]: `%${req.query.search}%` } }]
         })
       },
       order: [['id', 'desc']],
@@ -42,11 +44,14 @@ export const findAllWaBlasUsers = async (req: any, res: Response): Promise<any> 
   }
 }
 
-export const findDetailWaBlasUser = async (req: any, res: Response): Promise<any> => {
-  const requestParams = req.params as WaBlasUsersAttributes
+export const findDetailWaBlasUserCategory = async (
+  req: any,
+  res: Response
+): Promise<any> => {
+  const requestParams = req.params as WaBlasUsersCategoryAttributes
 
   const emptyField = requestChecker({
-    requireList: ['waBlasUserId'],
+    requireList: ['waBlasUserCategoryId'],
     requestData: requestParams
   })
 
@@ -57,10 +62,10 @@ export const findDetailWaBlasUser = async (req: any, res: Response): Promise<any
   }
 
   try {
-    const result = await WaBlasUsersModel.findOne({
+    const result = await WaBlasUsersCategoryModel.findOne({
       where: {
         deleted: { [Op.eq]: 0 },
-        waBlasUserId: { [Op.eq]: requestParams.waBlasUserId }
+        waBlasUserCategoryId: { [Op.eq]: requestParams.waBlasUserCategoryId }
       }
     })
 
