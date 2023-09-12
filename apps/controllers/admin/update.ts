@@ -25,7 +25,7 @@ export const updateAdmin = async (req: any, res: Response): Promise<any> => {
       adminId: req.header('x-user-id')
     })
 
-    if (checkCurrentAdmin !== null) {
+    if (!checkCurrentAdmin) {
       const message = 'access denied!'
       const response = ResponseData.error(message)
       return res.status(StatusCodes.UNAUTHORIZED).json(response)

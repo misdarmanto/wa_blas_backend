@@ -20,8 +20,7 @@ export const findAllWaBlasUsers = async (req: any, res: Response): Promise<any> 
         ...(Boolean(req.query.search) && {
           [Op.or]: [
             { waBlasUserName: { [Op.like]: `%${req.query.search}%` } },
-            { waBlasUserWhatsappNumber: { [Op.like]: `%${req.query.search}%` } },
-            { waBlasUserCategory: { [Op.like]: `%${req.query.search}%` } }
+            { waBlasUserWhatsappNumber: { [Op.like]: `%${req.query.search}%` } }
           ]
         })
       },
@@ -63,7 +62,8 @@ export const findDetailWaBlasUser = async (req: any, res: Response): Promise<any
       where: {
         deleted: { [Op.eq]: 0 },
         waBlasUserId: { [Op.eq]: requestParams.waBlasUserId }
-      }
+      },
+      include: [{ model: WaBlasUsersCategoryModel, as: 'category' }]
     })
 
     if (result === null) {
